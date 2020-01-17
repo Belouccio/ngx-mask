@@ -1,5 +1,5 @@
 {
-  "name": "ngx-mask",
+  "name": "@giomamaladze/ngx-mask",
   "version": "8.1.6",
   "description": "awesome ngx mask",
   "keywords": [
@@ -19,13 +19,13 @@
   "contributors": [
     "ngx-mask"
   ],
-  "homepage": "https://github.com/JsDaddy/ngx-mask",
+  "homepage": "https://github.com/Belouccio/ngx-mask",
   "repository": {
     "type": "git",
-    "url": "git@github.com:JsDaddy/ngx-mask.git"
+    "url": "git@github.com:Belouccio/ngx-mask.git"
   },
   "bugs": {
-    "url": "https://github.com/JsDaddy/ngx-mask/issues"
+    "url": "https://github.com/Belouccio/ngx-mask/issues"
   },
   "main": "./bundles/ngx-mask.umd.js",
   "module": "./esm5/ngx-mask.js",

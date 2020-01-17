@@ -1,5 +1,5 @@
 {
-  "name": "ngx-mask",
+  "name": "@giomamaladze/ngx-mask",
   "version": "8.1.7",
   "description": "awesome ngx mask",
   "license": "MIT",
@@ -46,7 +46,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NepipenkoIgor/ngx-mask.git"
+    "url": "https://github.com/Belouccio/ngx-mask.git"
   },
   "dependencies": {
     "@angular/animations": "8.2.9",
