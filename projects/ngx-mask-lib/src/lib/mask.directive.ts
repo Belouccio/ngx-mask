@@ -35,6 +35,7 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
   @Input() public hiddenInput: IConfig['hiddenInput'] | null = null;
   @Input() public showMaskTyped: IConfig['showMaskTyped'] | null = null;
   @Input() public placeHolderCharacter: IConfig['placeHolderCharacter'] | null = null;
+  @Input() public showOnFocus: IConfig['showOnFocus'] | null = null;
   @Input() public shownMaskExpression: IConfig['shownMaskExpression'] | null = null;
   @Input() public showTemplate: IConfig['showTemplate'] | null = null;
   @Input() public clearIfNotMatch: IConfig['clearIfNotMatch'] | null = null;
@@ -69,6 +70,7 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
       hiddenInput,
       showMaskTyped,
       placeHolderCharacter,
+      showOnFocus,
       shownMaskExpression,
       showTemplate,
       clearIfNotMatch,
@@ -112,6 +114,9 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
     }
     if (placeHolderCharacter) {
       this._maskService.placeHolderCharacter = placeHolderCharacter.currentValue;
+    }
+    if (showOnFocus) {
+      this._maskService.showOnFocus = showOnFocus.currentValue;
     }
     if (shownMaskExpression) {
       this._maskService.shownMaskExpression = shownMaskExpression.currentValue;
@@ -240,6 +245,11 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
 
   @HostListener('blur')
   public onBlur(): void {
+    if (this._maskService.showOnFocus) {
+      this._maskService.showMaskTyped = false;
+      this._maskService.focused = false;
+      this._maskService.applyValueChanges();
+    }
     this._maskService.clearIfNotMatchFn();
     this.onTouch();
   }
@@ -249,6 +259,9 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
     const el: HTMLInputElement = e.target as HTMLInputElement;
     const posStart = 0;
     const posEnd = 0;
+    if (this._maskService.showOnFocus) {
+      this._maskService.showMaskTyped = true;
+    }
     if (
       el !== null &&
       el.selectionStart !== null &&
@@ -256,8 +269,8 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
       el.selectionStart > this._maskService.prefix.length &&
       // tslint:disable-next-line
       (e as any).keyCode !== 38
-    )
-      if (this._maskService.showMaskTyped) {
+    ) {
+      if (this._maskService.showMaskTyped || this._maskService.showOnFocus) {
         // We are showing the mask in the input
         this._maskService.maskIsShown = this._maskService.showMaskInInput();
         if (el.setSelectionRange && this._maskService.prefix + this._maskService.maskIsShown === el.value) {
@@ -272,10 +285,18 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
           }
         }
       }
+    } else {
+      // При фокусе на инпут показываем маску
+      if (this._maskService.showMaskTyped || this._maskService.showOnFocus) {
+        this._maskService.maskIsShown = this._maskService.showMaskInInput();
+      }
+    }
+
+    // Если маска при фокусе, то значение с маской берем с valueWithMask
     const nextValue: string | null =
       !el.value || el.value === this._maskService.prefix
         ? this._maskService.prefix + this._maskService.maskIsShown
-        : el.value;
+        : this._maskService.showOnFocus ? this._maskService.valueWithMask : el.value;
 
     /** Fix of cursor position jumping to end in most browsers no matter where cursor is inserted onFocus */
     if (el.value !== nextValue) {

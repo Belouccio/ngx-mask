@@ -22,6 +22,7 @@ export class MaskApplierService {
   public showMaskTyped!: IConfig['showMaskTyped'];
   public placeHolderCharacter!: IConfig['placeHolderCharacter'];
   public validation: IConfig['validation'];
+  public valueWithMask: IConfig['valueWithMask'];
   public separatorLimit: IConfig['separatorLimit'];
 
   private _shift!: Set<number>;
@@ -40,6 +41,7 @@ export class MaskApplierService {
     this.showMaskTyped = this._config.showMaskTyped;
     this.placeHolderCharacter = this._config.placeHolderCharacter;
     this.validation = this._config.validation;
+    this.valueWithMask = this._config.valueWithMask;
     this.separatorLimit = this._config.separatorLimit;
   }
 

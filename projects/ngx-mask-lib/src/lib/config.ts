@@ -8,12 +8,14 @@ export interface IConfig {
   clearIfNotMatch: boolean;
   showTemplate: boolean;
   showMaskTyped: boolean;
+  showOnFocus: boolean;
   placeHolderCharacter: string;
   shownMaskExpression: string;
   dropSpecialCharacters: boolean | string[];
   specialCharacters: string[];
   hiddenInput: boolean | undefined;
   validation: boolean;
+  valueWithMask: string;
   separatorLimit: string;
   patterns: {
     [character: string]: {
@@ -37,12 +39,14 @@ export const initialConfig: IConfig = {
   clearIfNotMatch: false,
   showTemplate: false,
   showMaskTyped: false,
+  showOnFocus: false,
   placeHolderCharacter: '_',
   dropSpecialCharacters: true,
   hiddenInput: undefined,
   shownMaskExpression: '',
   separatorLimit: '',
   validation: true,
+  valueWithMask: '',
   // tslint:disable-next-line: quotemark
   specialCharacters: ['-', '/', '(', ')', '.', ':', ' ', '+', ',', '@', '[', ']', '"', "'"],
   patterns: {
