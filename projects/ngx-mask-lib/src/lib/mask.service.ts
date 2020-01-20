@@ -88,8 +88,8 @@ export class MaskService extends MaskApplierService {
       // Костыль что бы удалять скобку ( при смене фокуса
       if (this.showOnFocus && !this.focused) {
         this.focused = true;
-        if ( result.length === 4 && result[3] === '(' ) {
-          return result.slice( 0, 3 );
+        if ( result[ this.prefix.length ] === '(' && !result[ this.prefix.length + 1 ] ) {
+          return result.slice( 0, this.prefix.length );
         }
         return result;
       }
