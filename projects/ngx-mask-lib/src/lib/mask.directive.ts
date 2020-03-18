@@ -225,6 +225,7 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
       caretShift = shift;
       backspaceShift = _backspaceShift;
     });
+
     // only set the selection if the element is active
     if (this.document.activeElement !== el) {
       return;
@@ -259,8 +260,17 @@ export class MaskDirective implements ControlValueAccessor, OnChanges {
     const el: HTMLInputElement = e.target as HTMLInputElement;
     const posStart = 0;
     const posEnd = 0;
+
     if (this._maskService.showOnFocus) {
       this._maskService.showMaskTyped = true;
+
+      // Когда задано дефолтное значение
+      if ( !this._maskService.valueWithMask && el.value ) {
+        const currentValue = this._maskService.actualValue;
+        const prefNmask = this._maskService.prefix + this._maskService.maskIsShown;
+        this._maskService.valueWithMask = currentValue + prefNmask.slice( currentValue.length );
+      }
+      // this._maskService.applyValueChanges();
     }
     if (
       el !== null &&

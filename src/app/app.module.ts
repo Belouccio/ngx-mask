@@ -16,9 +16,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import 'hammerjs';
-import { NgxMaskModule } from 'ngx-mask';
+
 
 import { AppComponent } from './app.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [AppComponent, TestMaskComponent],

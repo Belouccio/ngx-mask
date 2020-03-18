@@ -168,6 +168,7 @@ export class MaskService extends MaskApplierService {
   }
 
   public showMaskInInput(inputVal?: string): string {
+    debugger
     if ((this.showMaskTyped || this.showOnFocus) && !!this.shownMaskExpression) {
       if (this.maskExpression.length !== this.shownMaskExpression.length) {
         throw new Error('Mask expression must match mask placeholder length');
