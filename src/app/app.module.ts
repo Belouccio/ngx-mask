@@ -17,9 +17,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import 'hammerjs';
 
-
 import { AppComponent } from './app.component';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskModule } from 'projects/ngx-mask-lib/src';
+import { SuiModule } from '@giomamaladze/ng2-semantic-ui';
 
 @NgModule({
   declarations: [AppComponent, TestMaskComponent],
@@ -41,6 +41,7 @@ import { NgxMaskModule } from 'ngx-mask';
     MatListModule,
     MatCardModule,
     FormsModule,
+    SuiModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

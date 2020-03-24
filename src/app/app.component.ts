@@ -73,7 +73,7 @@ export class AppComponent {
   public commaSeparatorForm!: FormControl;
   public commaPrecisionSeparatorForm!: FormControl;
   public commaZeroPrecisionSeparatorForm!: FormControl;
-  public test = '5435 5 345';
+  public test = '';
 
   public constructor() {
     this.form = new FormControl('');
