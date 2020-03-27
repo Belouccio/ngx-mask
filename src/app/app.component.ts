@@ -74,6 +74,7 @@ export class AppComponent {
   public commaPrecisionSeparatorForm!: FormControl;
   public commaZeroPrecisionSeparatorForm!: FormControl;
   public test = '';
+  public isOpen: any;
 
   public constructor() {
     this.form = new FormControl('');

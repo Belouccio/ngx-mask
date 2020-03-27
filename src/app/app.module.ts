@@ -18,8 +18,8 @@ import { NgModule } from '@angular/core';
 import 'hammerjs';
 
 import { AppComponent } from './app.component';
-import { NgxMaskModule } from 'projects/ngx-mask-lib/src';
 import { SuiModule } from '@giomamaladze/ng2-semantic-ui';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [AppComponent, TestMaskComponent],

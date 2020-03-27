@@ -71,6 +71,27 @@
     </div>
   </div>
 </div>
+<button (click)="isOpen = !isOpen">modal</button>
+<sui-modal *ngIf="isOpen" [isClosable]="true" #modal>
+  <div class="header">Example</div>
+  <div class="content">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Phone number"
+        mask="00.00.0000"
+        [showOnFocus]="true"
+        suiDatepicker
+        pickerMode="date"
+      />
+      <mat-hint><b>Mask: </b>+5 (000) 000 0000</mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="actions">
+      <button class="ui red button" (click)="modal.deny(); isOpen = !isOpen">Cancel</button>
+      <button class="ui green button" (click)="modal.approve('done'); isOpen = !isOpen" autofocus>OK</button>
+  </div>
+</sui-modal>
 
 <div class="container">
   <div class="row">
