@@ -50,7 +50,30 @@ export class MaskApplierService {
     this.customPattern = customPattern;
     return this.applyMask(inputValue, mask);
   }
-  public applyMask(inputValue: string, maskExpression: string, position: number = 0, cb: Function = () => { }): string {
+
+  private checkAndRemoveSuffix = (inputValue: string): string => {
+    if (!this.suffix) {
+      return inputValue;
+    }
+    for (let i = this.suffix.length - 1; i >= 0; i--) {
+      const substr = this.suffix.substr(i, this.suffix.length);
+      if (
+        inputValue.includes(substr) &&
+        (i - 1 < 0 || !inputValue.includes(this.suffix.substr(i - 1, this.suffix.length)))
+      ) {
+        return inputValue.replace(substr, '');
+      }
+    }
+    return inputValue;
+  };
+
+  public applyMask(
+    inputValue: string,
+    maskExpression: string,
+    position: number = 0,
+    backspaced: boolean = false,
+    cb: Function = () => { },
+  ): string {
     if (inputValue === undefined || inputValue === null || maskExpression === undefined) {
       return '';
     }
@@ -63,8 +86,8 @@ export class MaskApplierService {
     if (inputValue.slice(0, this.prefix.length) === this.prefix) {
       inputValue = inputValue.slice(this.prefix.length, inputValue.length);
     }
-    if (!!this.suffix && inputValue.endsWith(this.suffix)) {
-      inputValue = inputValue.slice(0, inputValue.length - this.suffix.length);
+    if (!!this.suffix && inputValue && inputValue.length > 0) {
+      inputValue = this.checkAndRemoveSuffix(inputValue);
     }
     const inputArray: string[] = inputValue.toString().split('');
     if (maskExpression === 'IP') {
@@ -330,7 +353,11 @@ export class MaskApplierService {
     if (shift < 0) {
       this._shift.clear();
     }
-    let res = `${this.prefix}${result}${this.suffix}`;
+    let onlySpecial = false;
+    if (backspaced) {
+      onlySpecial = inputArray.every((char) => this.maskSpecialCharacters.includes(char));
+    }
+    let res = `${this.prefix}${onlySpecial ? '' : result}${this.suffix}`;
     if (result.length === 0) {
       res = `${this.prefix}${result}`;
     }
@@ -401,8 +428,10 @@ export class MaskApplierService {
 
       const precisionMatch: RegExpMatchArray | null = inputValue.match(precisionRegEx);
       if (precisionMatch && precisionMatch[0].length - 1 > precision) {
-        inputValue = inputValue.substring(0, inputValue.length - 1);
-      } else if (precision === 0 && inputValue.endsWith(decimalMarker)) {
+        const diff = precisionMatch[0].length - 1 - precision;
+        inputValue = inputValue.substring(0, inputValue.length - diff);
+      }
+      if (precision === 0 && inputValue.endsWith(decimalMarker)) {
         inputValue = inputValue.substring(0, inputValue.length - 1);
       }
     }
@@ -413,14 +442,17 @@ export class MaskApplierService {
     return str
       .split('')
       .filter((i: string, idx: number) => {
-        return i.match('^-?\\d') || i === '.' || i === ',' || (i === '-' && idx === 0);
+        return i.match('^-?\\d') || i.match('\\s') || i === '.' || i === ',' || (i === '-' && idx === 0);
       })
       .join('');
   }
 
   private _charToRegExpExpression(char: string): string {
-    const charsToEscape = '[\\^$.|?*+()';
-    return char === ' ' ? '\\s' : charsToEscape.indexOf(char) >= 0 ? '\\' + char : char;
+    if (char) {
+      const charsToEscape = '[\\^$.|?*+()';
+      return char === ' ' ? '\\s' : charsToEscape.indexOf(char) >= 0 ? '\\' + char : char;
+    }
+    return char;
   }
   // tslint:disable-next-line:max-file-line-count
 }

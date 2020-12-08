@@ -21,12 +21,10 @@
       "dom"
     ],
     "paths": {
-      "ngx-mask": [
-        "dist/ngx-mask-lib"
-      ],
-      "ngx-mask/*": [
-        "dist/ngx-mask-lib/*"
-      ]
+      //      "ngx-mask": ["dist/ngx-mask-lib"],
+      //      "ngx-mask/*": ["dist/ngx-mask-lib/*"]
+      "ngx-mask": ["projects/ngx-mask-lib/src"],
+      "ngx-mask/*": ["projects/ngx-mask-lib/src"]
     }
   }
 }

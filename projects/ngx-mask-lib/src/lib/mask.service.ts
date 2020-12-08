@@ -31,7 +31,7 @@ export class MaskService extends MaskApplierService {
   }
 
   // tslint:disable-next-line:cyclomatic-complexity
-  public applyMask(inputValue: string, maskExpression: string, position: number = 0, cb: Function = () => { }): string {
+  public applyMask(inputValue: string, maskExpression: string, position: number = 0, backspaced = false, cb: Function = () => { }): string {
     if (!maskExpression) {
       return inputValue;
     }
@@ -68,7 +68,7 @@ export class MaskService extends MaskApplierService {
       newInputValue = this.actualValue.length ? this.shiftTypedSymbols(actualResult.join('')) : inputValue;
     }
     newInputValue = Boolean(newInputValue) && newInputValue.length ? newInputValue : inputValue;
-    const result: string = super.applyMask(newInputValue, maskExpression, position, cb);
+    const result: string = super.applyMask(newInputValue, maskExpression, position, backspaced, cb);
     this.actualValue = this.getActualValue(result);
 
     // handle some separator implications:
@@ -104,9 +104,9 @@ export class MaskService extends MaskApplierService {
     return result + (this.maskExpression === 'IP' ? prefNmask : prefNmask.slice(resLen));
   }
 
-  public applyValueChanges(position: number = 0, cb: Function = () => { }): void {
+  public applyValueChanges(position: number = 0, backspaced: boolean = false, cb: Function = () => { }): void {
     this.valueWithMask = this._formElement.value; // Сохраняем значение с маской в переменную
-    this._formElement.value = this.applyMask(this._formElement.value, this.maskExpression, position, cb);
+    this._formElement.value = this.applyMask(this._formElement.value, this.maskExpression, position, backspaced, cb);
     if (this._formElement === this.document.activeElement) {
       return;
     }
